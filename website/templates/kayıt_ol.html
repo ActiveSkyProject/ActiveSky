@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt olma formu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %} 
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'error' %}
+                <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% else %}
+                <div class="alert alert-success alert-dismissable fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <form method="POST">
+        <h2>Kayıt Ol</h2>
+        <input type="text" class="form-control" id="kullanıcı_adı" name="kullanıcı_adı" placeholder="Kullanıcı adı">
+        <input type="email" class="form-control" id="email" name="email" placeholder="email">
+        <input type="password" class="form-control" id="şifre" name="şifre" placeholder="Şifre">
+        <button type="submit">Kayıt Ol</button>
+    </form>
+</body>
+</html>
