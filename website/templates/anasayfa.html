@@ -1,38 +1,52 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Anasayfa</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style4.css') }}">
     </head>
     <body>
         {% with messages = get_flashed_messages(with_categories=true) %} 
-            {% if messages %}
-                {% for category, message in messages %}
-                    {% if category == 'error' %}
-                    <div class="alert alert-danger alert-dismissable fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {% else %}
-                    <div class="alert alert-success alert-dismissable fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        <div class="container">
-            <h1 class="status"></h1>
-            <button class="find-state">Find My State</button>
-            <script src="{{ url_for('static', filename='index.js') }}"></script>
-        </div>
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'error' %}
+                <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                    {{ message }}
+                </div>
+                {% else %}
+                <div class="alert alert-success alert-dismissable fade show" role="alert">
+                    {{ message }}
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
-        <script
-            type="text/javascript"
-            src="{{ url_for('static', filename='index.js') }}"
-        ></script>
+        <h1>Hava durumuna göre aktivite önerme</h1>
+        <div class="weather-info">
+            <div class="weather-data">
+                <p><strong>Şehir : </strong><span id="city-name">-</span></p>
+                <p><strong>Zaman : </strong><span id="current-time">-</span></p>
+                <p><strong>Derece : </strong><span id="temperature">-</span> °C</p>
+                <p><strong>Tanım : </strong><span id="weather-description">-</span></p>
+            </div>
+        </div>
+        <div class="activity-section temp-activity">
+            <h2>Sıcaklığa göre : </h2>
+            <p id="temp-activity">İlk önce hava durumunu alınız</p>
+        </div>
+        <div class="activity-section weather-activity">
+            <h2>Hava Durumuna Göre :</h2>
+            <p id="weather-activity">ilk önce hava durumunu alınız</p>
+        </div>
+        <div class="activity-section time-activity">
+            <h2>Günün Saatine Göre :</h2>
+            <p id="time-activity">Önce hava durumunu alınız</p>
+        </div>
+        <button class="find-state">Get My Weather and Activities</button>
+        <p class="status"></p>
+        <script src="{{ url_for('static', filename='frontend.js') }}"></script>
+
     </body>
 </html>

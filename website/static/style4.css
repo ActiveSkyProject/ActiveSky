@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box; /* Öğelerin genişlik ve yükseklik hesaplamasını düzgün yapar */
+}
+
+body {
+    background: #2773b2 url(https://i.pinimg.com/736x/cc/9f/60/cc9f60f7fea009c75f138a07a9f14d74.jpg);
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 100vh;
+}
+h1{
+    background: rgba(112, 106, 113, 0.8);
+    box-shadow: 0 0 5px rgb(0,0,0,.8);
+    border-radius: 10px;
+    color: aliceblue;
+    margin-bottom: 60px;
+    font-size: 37px;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+;
+}
+.weather-info{
+    background: rgba(112, 106, 113, 0.8);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;/* eğer öğeler sığmazsa alt satırlara geçmeisne izin verir*/
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgb(0,0,0,.8);
+    margin-bottom: 20px;
+    justify-content: center;
+    height: 80px;
+    color: aliceblue;
+    height: 100px;
+    width: 1350px;
+    text-align: center;
+}
+.weather-data{
+    background: rgba(112, 106, 113, 0.8);
+    box-shadow: 0 0 5px rgb(0,0,0,.8);
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;/* eğer öğeler sığmazsa alt satırlara geçmeisne izin verir*/
+    align-items: center;
+    flex: 1;
+    margin: 10px;
+    padding: 15px;
+    color: aliceblue;
+    width: 1300px;
+    text-align: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 27px;
+}
+.activity-section{
+    background: rgba(112, 106, 113, 0.8);
+    box-shadow: 0 0 5px rgb(0,0,0,.8);
+    border-radius: 10px;
+    display: flex;
+    margin-bottom: 20px;
+    padding: 15px;
+    height: 100px;
+    align-items: center;
+    color: aliceblue;
+    width: 1350px;
+    text-align: center;
+    justify-content: center;
+    font-size: 18px;
+}
+.temp-activity{
+    background: rgba(193, 105, 208, 0.8);
+}
+.weather-activity{
+    background: rgba(105, 208, 119, 0.8);
+}
+.time-activity{
+    background: rgba(208, 169, 105, 0.8);
+}
+button{
+    font-size: 20px;
+    border: none;
+    background: #4CAF50;
+    color: aliceblue;
+    padding: 12px 20px;
+    margin-top: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3sn;
+    box-shadow: 0 0 5px rgb(0,0,0,.8);
+    text-align: center;
+}
+.status {
+    margin-top: 10px;
+    font-style: italic;
+}
+.alert {
+    position: fixed;
+    bottom: 10px; /* Sayfanın altına yerleştir */
+    right: 10px; /* Sayfanın sağına hizala */
+    width: 300px; /* Sabit bir genişlik belirle (isteğe bağlı) */
+    z-index: 1000; /* Diğer içeriklerin üstünde olması için */
+    opacity: 0.9; /* Hafif şeffaflık verebiliriz */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Hafif gölge efekti */
+    font-size: 30px;
+    text-align: center;
+}

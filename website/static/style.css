@@ -45,3 +45,14 @@ body {
     display: flex;
     gap: 20px;
 }
+.alert {
+    position: fixed;
+    bottom: 10px; 
+    right: 10px; 
+    width: 300px;
+    z-index: 1000; /* Diğer içeriklerin üstünde olması için */
+    opacity: 0.9; /* Hafif şeffaflık verebiliriz */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    font-size: 30px;
+    text-align: center;
+}

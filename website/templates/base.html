@@ -15,16 +15,10 @@
                 {% if category == 'error' %}
                 <div class="alert alert-danger alert-dismissable fade show" role="alert">
                     {{ message }}
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 {% else %}
                 <div class="alert alert-success alert-dismissable fade show" role="alert">
                     {{ message }}
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 {% endif %}
             {% endfor %}
@@ -34,7 +28,6 @@
     <div class="navbar">
         <a href="#">ActiveSky</a>
         <div class="menu">
-            <a href="#">Ana Sayfa</a>
             <a href="#">Hakkında</a>
             <a href="#">Hizmetler</a>
             <a href="#">İletişim</a>
