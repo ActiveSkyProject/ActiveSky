@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
 
-            status.textContent = Location found! Getting weather data...;
+            status.textContent = 'Location found! Getting weather data...';
 
             
             fetch('/anasayfa', {
