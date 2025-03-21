@@ -6,7 +6,7 @@ from datetime import datetime
 
 views = Blueprint('views', _name_)
 class ActivityRecommendation:
-    def _init_(self, temperature, description):
+    def __init__(self, temperature, description):
         self.temperature = temperature
         self.description = description.lower() if description else ""
         
