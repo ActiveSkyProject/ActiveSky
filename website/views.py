@@ -1,178 +1,179 @@
+import random
 from flask import Blueprint, render_template, request, jsonify
 from flask_login import login_required, current_user
 import requests
 import os
 from datetime import datetime
 
-views = Blueprint('views', _name_)
+views = Blueprint('views', __name__)
 class ActivityRecommendation:
     def __init__(self, temperature, description):
         self.temperature = temperature
         self.description = description.lower() if description else ""
         
     def recommend_activity_based_on_temperature(self):
-        # SÄ±caklÄ±ÄŸa gÃ¶re aktivite Ã¶nerileri listesi
+        # Sıcaklığa göre aktivite önerileri listesi
         if self.temperature > 30:
             activities = [
-                "YÃ¼zmeye gidebilir veya plaja gidebilirsiniz.",
-                "Serinlemek iÃ§in su parkÄ±na gidebilirsiniz.",
-                "Yerel bir dÃ¼kkÃ¢nda dondurma keyfi yapabilirsiniz.",
-                "AÃ§Ä±k havada bir kafede serinletici bir iÃ§ecek iÃ§ebilirsiniz.",
-                "YakÄ±ndaki bir gÃ¶lde kano veya kÃ¼rek sÃ¶rfÃ¼ yapabilirsiniz."
+                "Yüzmeye gidebilir veya plaja gidebilirsiniz.",
+                "Serinlemek için su parkına gidebilirsiniz.",
+                "Yerel bir dükkânda dondurma keyfi yapabilirsiniz.",
+                "Açık havada bir kafede serinletici bir içecek içebilirsiniz.",
+                "Yakındaki bir gölde kano veya kürek sörfü yapabilirsiniz."
             ]
         elif 20 <= self.temperature <= 30:
             activities = [
-                "DÄ±ÅŸarÄ±da yÃ¼rÃ¼yÃ¼ÅŸ yapmak iÃ§in mÃ¼kemmel.",
+                "Dışarıda yürüyüş yapmak için mükemmel.",
                 "Parkta piknik yapabilirsiniz.",
-                "Bisiklet sÃ¼rebilirsiniz.",
-                "AÃ§Ä±k hava pazarÄ± veya festivalini ziyaret edebilirsiniz.",
-                "Tenis veya voleybol gibi aÃ§Ä±k hava sporlarÄ± oynayabilirsiniz."
+                "Bisiklet sürebilirsiniz.",
+                "Açık hava pazarı veya festivalini ziyaret edebilirsiniz.",
+                "Tenis veya voleybol gibi açık hava sporları oynayabilirsiniz."
             ]
         elif 10 <= self.temperature < 20:
             activities = [
-                "Sahilde yÃ¼rÃ¼yÃ¼ÅŸ yapmak iÃ§in harika.",
-                "SÄ±cak bir iÃ§ecek iÃ§in bir kafeye gidebilirsiniz.",
-                "DoÄŸada manzaralÄ± bir sÃ¼rÃ¼ÅŸe Ã§Ä±kabilirsiniz.",
-                "YakÄ±ndaki bir parkurda yÃ¼rÃ¼yÃ¼ÅŸe Ã§Ä±kabilirsiniz.",
-                "Botanik bahÃ§esi veya aÃ§Ä±k hava sergisini ziyaret edebilirsiniz."
+                "Sahilde yürüyüş yapmak için harika.",
+                "Sıcak bir içecek için bir kafeye gidebilirsiniz.",
+                "Doğada manzaralı bir sürüşe çıkabilirsiniz.",
+                "Yakındaki bir parkurda yürüyüşe çıkabilirsiniz.",
+                "Botanik bahçesi veya açık hava sergisini ziyaret edebilirsiniz."
             ]
         else:
             activities = [
-                "SÄ±cak bir iÃ§ecekle iÃ§eride kalabilirsiniz.",
-                "Okumak gibi iÃ§ mekan aktivitelerinin tadÄ±nÄ± Ã§Ä±karabilirsiniz.",
+                "Sıcak bir içecekle içeride kalabilirsiniz.",
+                "Okumak gibi iç mekan aktivitelerinin tadını çıkarabilirsiniz.",
                 "Film izleyebilir veya dizi maratonu yapabilirsiniz.",
-                "KapalÄ± bir mÃ¼ze veya sanat galerisini ziyaret edebilirsiniz.",
+                "Kapalı bir müze veya sanat galerisini ziyaret edebilirsiniz.",
                 "Evde yeni bir tarif deneyebilirsiniz."
             ]
         
-        # Rastgele bir aktivite seÃ§
+        # Rastgele bir aktivite seç
         return random.choice(activities)
     
     def recommend_activity_based_on_weather(self):
-        # Hava durumuna gÃ¶re aktivite Ã¶nerileri listesi
+        # Hava durumuna göre aktivite önerileri listesi
         if "rain" in self.description:
             activities = [
-                "YaÄŸmur yaÄŸÄ±yor, ÅŸemsiyenizi almayÄ± unutmayÄ±n! Bir mÃ¼zeyi ziyaret etmeyi dÃ¼ÅŸÃ¼nebilirsiniz.",
-                "Sinemaya gitmek iÃ§in mÃ¼kemmel bir zaman.",
-                "Yerel bir alÄ±ÅŸveriÅŸ merkezinde alÄ±ÅŸveriÅŸ yapabilirsiniz.",
-                "KapalÄ± bir oyun salonunu ziyaret edebilirsiniz.",
+                "Yağmur yağıyor, şemsiyenizi almayı unutmayın! Bir müzeyi ziyaret etmeyi düşünebilirsiniz.",
+                "Sinemaya gitmek için mükemmel bir zaman.",
+                "Yerel bir alışveriş merkezinde alışveriş yapabilirsiniz.",
+                "Kapalı bir oyun salonunu ziyaret edebilirsiniz.",
                 "Yemek kursu alabilir veya evde yeni bir tarif deneyebilirsiniz."
             ]
         elif "snow" in self.description:
             activities = [
-                "Kar yaÄŸÄ±yor! Kayak yapabilirsiniz.",
+                "Kar yağıyor! Kayak yapabilirsiniz.",
                 "Yerel bir pistte buz pateni yapabilirsiniz.",
-                "Kardan adam yapabilir veya kartopu savaÅŸÄ± yapabilirsiniz.",
-                "YakÄ±ndaki bir tepede kÄ±zak kayabilirsiniz.",
-                "Kar manzaralÄ± ÅŸirin bir kafede sÄ±cak bir iÃ§ecek iÃ§ebilirsiniz."
+                "Kardan adam yapabilir veya kartopu savaşı yapabilirsiniz.",
+                "Yakındaki bir tepede kızak kayabilirsiniz.",
+                "Kar manzaralı şirin bir kafede sıcak bir içecek içebilirsiniz."
             ]
         elif "clear" in self.description:
             activities = [
-                "AÃ§Ä±k gÃ¶kyÃ¼zÃ¼, doÄŸa yÃ¼rÃ¼yÃ¼ÅŸÃ¼ iÃ§in harika bir gÃ¼n!",
-                "Piknik yapmak iÃ§in parka gidebilirsiniz.",
-                "DÄ±ÅŸarÄ±da koÅŸu yapabilirsiniz.",
-                "AÃ§Ä±k hava fotoÄŸrafÃ§Ä±lÄ±ÄŸÄ± deneyebilirsiniz.",
-                "Yerel bir Ã§iftÃ§i pazarÄ±nÄ± veya aÃ§Ä±k hava alÄ±ÅŸveriÅŸ alanÄ±nÄ± ziyaret edebilirsiniz."
+                "Açık gökyüzü, doğa yürüyüşü için harika bir gün!",
+                "Piknik yapmak için parka gidebilirsiniz.",
+                "Dışarıda koşu yapabilirsiniz.",
+                "Açık hava fotoğrafçılığı deneyebilirsiniz.",
+                "Yerel bir çiftçi pazarını veya açık hava alışveriş alanını ziyaret edebilirsiniz."
             ]
         elif "cloud" in self.description:
             activities = [
-                "Bulutlu hava, rahat bir yÃ¼rÃ¼yÃ¼ÅŸÃ¼n tadÄ±nÄ± Ã§Ä±karmak iÃ§in iyi bir zaman.",
-                "Kahve veya Ã§ay iÃ§in ÅŸirin bir kafeye gidebilirsiniz.",
-                "Bowling gibi iÃ§ mekan aktivitelerini deneyebilirsiniz.",
-                "KÄ±ÅŸ bahÃ§esi veya sera ziyaret edebilirsiniz.",
-                "Bir kitapÃ§Ä± veya kÃ¼tÃ¼phaneyi keÅŸfedebilirsiniz."
+                "Bulutlu hava, rahat bir yürüyüşün tadını çıkarmak için iyi bir zaman.",
+                "Kahve veya çay için şirin bir kafeye gidebilirsiniz.",
+                "Bowling gibi iç mekan aktivitelerini deneyebilirsiniz.",
+                "Kış bahçesi veya sera ziyaret edebilirsiniz.",
+                "Bir kitapçı veya kütüphaneyi keşfedebilirsiniz."
             ]
         elif "fog" in self.description:
             activities = [
-                "Sisli, gÃ¶rÃ¼ÅŸ mesafesi dÃ¼ÅŸÃ¼k olabilir. Ä°Ã§eride kalmayÄ± dÃ¼ÅŸÃ¼nebilirsiniz.",
-                "Masa oyunlarÄ± veya yapbozlar gibi iÃ§ mekan oyunlarÄ±nÄ±n tadÄ±nÄ± Ã§Ä±karabilirsiniz.",
-                "Yeni bir tarif piÅŸirebilir veya lezzetli bir ÅŸeyler yapabilirsiniz.",
-                "KapalÄ± bir havuz veya spa ziyaret edebilirsiniz.",
-                "Okuma veya podcast dinleme zamanÄ± olabilir."
+                "Sisli, görüş mesafesi düşük olabilir. İçeride kalmayı düşünebilirsiniz.",
+                "Masa oyunları veya yapbozlar gibi iç mekan oyunlarının tadını çıkarabilirsiniz.",
+                "Yeni bir tarif pişirebilir veya lezzetli bir şeyler yapabilirsiniz.",
+                "Kapalı bir havuz veya spa ziyaret edebilirsiniz.",
+                "Okuma veya podcast dinleme zamanı olabilir."
             ]
         elif "storm" in self.description:
             activities = [
-                "FÄ±rtÄ±nalÄ± hava, en iyisi kapalÄ± mekanlarda kalmaktÄ±r.",
-                "Resim yapmak gibi iÃ§ mekan hobilerinin tadÄ±nÄ± Ã§Ä±karabilirsiniz.",
-                "Konforlu yemekler piÅŸirebilir veya tatlÄ±lar yapabilirsiniz.",
-                "Film izleyebilir veya yeni bir dizi baÅŸlatabilirsiniz.",
-                "Kart veya masa oyunlarÄ±yla bir oyun gecesi dÃ¼zenleyebilirsiniz."
+                "Fırtınalı hava, en iyisi kapalı mekanlarda kalmaktır.",
+                "Resim yapmak gibi iç mekan hobilerinin tadını çıkarabilirsiniz.",
+                "Konforlu yemekler pişirebilir veya tatlılar yapabilirsiniz.",
+                "Film izleyebilir veya yeni bir dizi başlatabilirsiniz.",
+                "Kart veya masa oyunlarıyla bir oyun gecesi düzenleyebilirsiniz."
             ]
         else:
             activities = [
-                "Ä°Ã§ veya dÄ±ÅŸ mekan aktivitelerinin tadÄ±nÄ± Ã§Ä±karmak iÃ§in harika bir gÃ¼n!",
-                "Daha Ã¶nce hiÃ§ gitmediÄŸiniz yerel bir turistik yeri ziyaret etmeyi deneyebilirsiniz.",
-                "Yeni bir ÅŸey Ã¶ÄŸrenmek iÃ§in bir kursa katÄ±labilirsiniz.",
-                "Keyifli bir sÃ¼rÃ¼ÅŸe Ã§Ä±kÄ±p Ã§evrenizi keÅŸfedebilirsiniz.",
-                "Bir kafe veya restoranda arkadaÅŸlarÄ±nÄ±zla buluÅŸabilirsiniz."
+                "İç veya dış mekan aktivitelerinin tadını çıkarmak için harika bir gün!",
+                "Daha önce hiç gitmediğiniz yerel bir turistik yeri ziyaret etmeyi deneyebilirsiniz.",
+                "Yeni bir şey öğrenmek için bir kursa katılabilirsiniz.",
+                "Keyifli bir sürüşe çıkıp çevrenizi keşfedebilirsiniz.",
+                "Bir kafe veya restoranda arkadaşlarınızla buluşabilirsiniz."
             ]
         
-        # Rastgele bir aktivite seÃ§
+        # Rastgele bir aktivite seç
         return random.choice(activities)
     
     def recommend_activity_based_on_time(self):
-        # Åu anki saati al
+        # Şu anki saati al
         current_hour = datetime.now().hour
         
-        # Saate gÃ¶re aktivite Ã¶nerileri listesi
+        # Saate göre aktivite önerileri listesi
         if 5 <= current_hour < 8:
             activities = [
-                "Erken sabah yoga veya meditasyon iÃ§in mÃ¼kemmeldir.",
-                "GÃ¼nÃ¼nÃ¼ze enerjiyle baÅŸlamak iÃ§in sabah koÅŸusuna Ã§Ä±kabilirsiniz.",
-                "Huzurlu bir gÃ¼ndoÄŸumu yÃ¼rÃ¼yÃ¼ÅŸÃ¼nÃ¼n tadÄ±nÄ± Ã§Ä±karabilirsiniz.",
-                "Yerel bir kafede besleyici bir kahvaltÄ± yapabilirsiniz.",
-                "VÃ¼cudunuzu uyandÄ±rmak iÃ§in biraz esneme egzersizleri yapabilirsiniz."
+                "Erken sabah yoga veya meditasyon için mükemmeldir.",
+                "Gününüze enerjiyle başlamak için sabah koşusuna çıkabilirsiniz.",
+                "Huzurlu bir gündoğumu yürüyüşünün tadını çıkarabilirsiniz.",
+                "Yerel bir kafede besleyici bir kahvaltı yapabilirsiniz.",
+                "Vücudunuzu uyandırmak için biraz esneme egzersizleri yapabilirsiniz."
             ]
         elif 8 <= current_hour < 11:
             activities = [
-                "SabahÄ±n ortasÄ± - kahvaltÄ± iÃ§in bir kafeye gitmek iÃ§in harika bir zaman.",
-                "KalabalÄ±klar oluÅŸmadan Ã¶nce bir Ã§iftÃ§i pazarÄ±nÄ± keÅŸfedebilirsiniz.",
-                "MaÄŸazalar daha az kalabalÄ±kken alÄ±ÅŸveriÅŸ yapabilirsiniz.",
-                "Sabah ortasÄ± fitness dersine katÄ±labilirsiniz.",
-                "DÄ±ÅŸarÄ±sÄ± hala serin iken bir bahÃ§eyi veya parkÄ± ziyaret edebilirsiniz."
+                "Sabahın ortası - kahvaltı için bir kafeye gitmek için harika bir zaman.",
+                "Kalabalıklar oluşmadan önce bir çiftçi pazarını keşfedebilirsiniz.",
+                "Mağazalar daha az kalabalıkken alışveriş yapabilirsiniz.",
+                "Sabah ortası fitness dersine katılabilirsiniz.",
+                "Dışarısı hala serin iken bir bahçeyi veya parkı ziyaret edebilirsiniz."
             ]
         elif 11 <= current_hour < 14:
             activities = [
-                "Ã–ÄŸle yemeÄŸi vakti! GÃ¼zel bir restoran bulabilirsiniz.",
-                "Parkta pikniÄŸin tadÄ±nÄ± Ã§Ä±karabilirsiniz.",
-                "Bu daha az kalabalÄ±k zamanda bir mÃ¼zeyi ziyaret edebilirsiniz.",
-                "Yemek kursu veya atÃ¶lye Ã§alÄ±ÅŸmasÄ±na katÄ±labilirsiniz.",
-                "Bir arkadaÅŸÄ±nÄ±zla Ã¶ÄŸle yemeÄŸi yiyip sohbet edebilirsiniz."
+                "Öğle yemeği vakti! Güzel bir restoran bulabilirsiniz.",
+                "Parkta pikniğin tadını çıkarabilirsiniz.",
+                "Bu daha az kalabalık zamanda bir müzeyi ziyaret edebilirsiniz.",
+                "Yemek kursu veya atölye çalışmasına katılabilirsiniz.",
+                "Bir arkadaşınızla öğle yemeği yiyip sohbet edebilirsiniz."
             ]
         elif 14 <= current_hour < 17:
             activities = [
-                "Ã–ÄŸleden sonra aÃ§Ä±k hava aktiviteleri iÃ§in idealdir.",
+                "Öğleden sonra açık hava aktiviteleri için idealdir.",
                 "Turistik yerleri veya simgeleri ziyaret edebilirsiniz.",
-                "GÃ¼nÃ¼n tadÄ±nÄ± Ã§Ä±karmak iÃ§in keyifli bir yÃ¼rÃ¼yÃ¼ÅŸe Ã§Ä±kabilirsiniz.",
-                "Vitrin alÄ±ÅŸveriÅŸi yapabilir veya yerel dÃ¼kkanlarÄ± gezebilirsiniz.",
-                "AÃ§Ä±k havada bir kafede kahve veya Ã§ayÄ±n tadÄ±nÄ± Ã§Ä±karabilirsiniz."
+                "Günün tadını çıkarmak için keyifli bir yürüyüşe çıkabilirsiniz.",
+                "Vitrin alışverişi yapabilir veya yerel dükkanları gezebilirsiniz.",
+                "Açık havada bir kafede kahve veya çayın tadını çıkarabilirsiniz."
             ]
         elif 17 <= current_hour < 20:
             activities = [
-                "Erken akÅŸam saatleri akÅŸam yemeÄŸi planlarÄ± iÃ§in mÃ¼kemmeldir.",
+                "Erken akşam saatleri akşam yemeği planları için mükemmeldir.",
                 "Sinemada film izleyebilirsiniz.",
-                "ManzaralÄ± bir noktada gÃ¼n batÄ±mÄ± manzarasÄ±nÄ±n tadÄ±nÄ± Ã§Ä±karabilirsiniz.",
-                "AkÅŸam fitness dersine katÄ±labilirsiniz.",
-                "Yerel bir bira evi veya ÅŸarap barÄ±nÄ± ziyaret edebilirsiniz."
+                "Manzaralı bir noktada gün batımı manzarasının tadını çıkarabilirsiniz.",
+                "Akşam fitness dersine katılabilirsiniz.",
+                "Yerel bir bira evi veya şarap barını ziyaret edebilirsiniz."
             ]
         elif 20 <= current_hour < 23:
             activities = [
-                "Gece vakti yÄ±ldÄ±z gÃ¶zlemlemek iÃ§in fÄ±rsatlar sunar.",
-                "Yerel gece hayatÄ± veya mÃ¼zik mekanlarÄ±nÄ±n tadÄ±nÄ± Ã§Ä±karabilirsiniz.",
-                "AkÅŸam gÃ¶sterisi veya performansa katÄ±labilirsiniz.",
-                "Bir restoranda rahat bir akÅŸam yemeÄŸi yiyebilirsiniz.",
-                "Gece fotoÄŸrafÃ§Ä±lÄ±ÄŸÄ± yÃ¼rÃ¼yÃ¼ÅŸÃ¼ne Ã§Ä±kabilirsiniz."
+                "Gece vakti yıldız gözlemlemek için fırsatlar sunar.",
+                "Yerel gece hayatı veya müzik mekanlarının tadını çıkarabilirsiniz.",
+                "Akşam gösterisi veya performansa katılabilirsiniz.",
+                "Bir restoranda rahat bir akşam yemeği yiyebilirsiniz.",
+                "Gece fotoğrafçılığı yürüyüşüne çıkabilirsiniz."
             ]
         else:
             activities = [
-                "GeÃ§ gece, kitap okumak gibi rahatlatÄ±cÄ± aktiviteler iÃ§in en iyisidir.",
-                "Yatmadan Ã¶nce film veya dizi izleyebilirsiniz.",
+                "Geç gece, kitap okumak gibi rahatlatıcı aktiviteler için en iyisidir.",
+                "Yatmadan önce film veya dizi izleyebilirsiniz.",
                 "Rahatlama teknikleri veya meditasyon uygulayabilirsiniz.",
-                "YarÄ±nki aktivitelerinizi planlayabilirsiniz.",
-                "YarÄ±n iÃ§in biraz dinlenebilirsiniz."
+                "Yarınki aktivitelerinizi planlayabilirsiniz.",
+                "Yarın için biraz dinlenebilirsiniz."
             ]
         
-        # Rastgele bir aktivite seÃ§
+        # Rastgele bir aktivite seç
         return random.choice(activities)
 
 @views.route('/')
@@ -186,6 +187,14 @@ def home():
 def mainPage():
     return render_template("anasayfa.html", user=current_user)
 
+@views.route('/hakkımızda')
+def hakkımızda():
+    return render_template("hakkımızda.html")
+
+@views.route('/iletişim')
+def iletişim():
+    return render_template("iletişim.html")
+
 @views.route('/anasayfa', methods=['POST'])
 @login_required
 def get_weather():
@@ -194,20 +203,20 @@ def get_weather():
     longitude = data['longitude']
 
     API_KEY = get_api_key()
-    url = f'http://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&units=metric&appid={API_KEY}'# Aktivite ï¿½nerilerini oluï¿½tur
+    url = f'http://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&units=metric&appid={API_KEY}'# Aktivite  nerilerini olu tur
 
     response = requests.get(url).json()
     city = response.get('name')
     temp = response.get('main', {}).get('temp')
     description = response.get('weather', [{}])[0].get('description')
     
-    # Aktivite Ã¶nerilerini oluÅŸtur
+    # Aktivite önerilerini oluştur
     recommender = ActivityRecommendation(temp, description)
     temp_activity = recommender.recommend_activity_based_on_temperature()
     weather_activity = recommender.recommend_activity_based_on_weather()
     time_activity = recommender.recommend_activity_based_on_time()
 
-    # ï¿½u anki saati de gï¿½nder
+    #  u anki saati de g nder
     current_time = datetime.now().strftime("%H:%M")
     
     return jsonify({
@@ -227,7 +236,7 @@ def change_activities():
     temp = data.get('temp')
     description = data.get('description')
     
-    # Yeni Ã¶nerileri oluÅŸtur
+    # Yeni önerileri oluştur
     recommender = ActivityRecommendation(temp, description)
     temp_activity = recommender.recommend_activity_based_on_temperature()
     weather_activity = recommender.recommend_activity_based_on_weather()
@@ -241,6 +250,6 @@ def change_activities():
 
 
 def get_api_key():
-    file_path = "api_key_txt"
+    file_path = "api_key.txt"
     with open(file_path, 'r') as file:
         return file.read().strip()
